@@ -20,6 +20,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MagicBox15/password-mng.git"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
