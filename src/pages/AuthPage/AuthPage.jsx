@@ -47,7 +47,7 @@ export const AuthPage = ({authenticate}) => {
 
   const authHandler = async () => {
     try {
-      const data = await request('http://localhost:3001/auth/login', 'no-cors', 'POST', {...form});
+      const data = await request('http://localhost:3001/login', 'no-cors', 'POST', {...form});
       authenticate();
       navigate('passwords');
       console.log('Data', data);
@@ -88,6 +88,7 @@ export const AuthPage = ({authenticate}) => {
 
           <div className='AuthPage__buttons'>
             <button
+              className='buttonSubmit'
               type="submit"
               onClick={authHandler}
               disabled={loading}
@@ -95,7 +96,9 @@ export const AuthPage = ({authenticate}) => {
               Sign In
             </button>
             <button
+              className='buttonSecondary'
               onClick={() => {navigate("/registration");}}
+              disabled={loading}
             >
               Sign Up
             </button>

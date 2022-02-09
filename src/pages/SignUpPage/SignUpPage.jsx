@@ -86,6 +86,7 @@ export const SignUpPage = () => {
 
         <div className='SignUpPage__buttons'>
           <button
+            className='buttonSubmit'
             type="submit"
             onClick={registrationHandler}
             disabled={loading}
@@ -93,6 +94,7 @@ export const SignUpPage = () => {
             Sign Up
           </button>
           <button
+            className='buttonSecondary'
             onClick={() => {navigate("/");}}
             disabled={loading}
           >

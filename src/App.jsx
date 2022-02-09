@@ -10,10 +10,10 @@ import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { SignUpPage } from "./pages/SignUpPage/SignUpPage";
 
 function App() {
-  const [data, setData] = useState()
+  const [auth, setAuth] = useState(false);
 
   useEffect(() => {
-    const res = fetch('http://localhost:3001/auth/login', {
+    fetch('/login', {
       method: 'POST',
       body: JSON.stringify({username: "qwe", password: "qwe123"}),
       headers: {
@@ -23,26 +23,24 @@ function App() {
     })
     .then((response) => {
       console.log(response);
-      setData(response);
-      
+      setAuth(response.ok)
+      return response.json();
     })
   })
 
   return (
-
-    <>{data}</>
-        // <Routes>
-        //   {!auth && (
-        //     <>
-        //       <Route path="/login" element={<AuthPage authenticate={() => setAuth(true)} />} />
-        //       <Route path="/registration" element={<SignUpPage />} />
-        //     </>
-        //   )}
-        //   {auth && (
-        //     <Route path="/passwords" element={<Dashboard />} />
-        //   )}
-        //   <Route path="*" element={<Navigate to={auth ? "/passwords" : "/login"} />} />
-        // </Routes>
+    <Routes>
+      {!auth && (
+        <>
+          <Route path="/login" element={<AuthPage authenticate={() => setAuth(true)} />} />
+          <Route path="/registration" element={<SignUpPage />} />
+        </>
+      )}
+      {auth && (
+        <Route path="/passwords" element={<Dashboard />} />
+      )}
+      <Route path="*" element={<Navigate to={auth ? "/passwords" : "/login"} />} />
+    </Routes>
   );
 }
 

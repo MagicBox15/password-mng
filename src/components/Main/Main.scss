@@ -1,0 +1,49 @@
+.Main {
+  display: flex;
+  height: 400px;
+  border: 1px solid black;
+
+  &__content {
+    width: 100%;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    align-items: center;
+    background-color: rgb(204, 236, 204);
+  }
+
+  &__title {
+    margin-left: 20px;
+    line-height: 60px;
+    font-size: 24px;
+  }
+
+  
+  &__listsInfo {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    margin-top: 20px;
+  }
+
+  &__buttonAdd {
+    height: 30px;
+    width: 100px;
+    margin-right: 20px;
+    border: 1px solid transparent;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 8px;
+    background-color: rgb(1,171,85);
+    cursor: pointer;
+  }
+}
+
+.Main__сontainer {
+  display: flex;
+  justify-content: space-between;
+}

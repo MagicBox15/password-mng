@@ -1,32 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Sidebar } from '../../components/Sidebar/Sidebar';
-import { Main } from '../../components/Dashboard/Main';
+import { Main } from '../../components/Main/Main';
 
 import './Dashboard.scss';
 
 export const Dashboard = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
+  const [listItem, setListItem] = useState([]);
 
-  async function getData() {
-    try {
-      const data = await fetch('https://localhost:3001/auth/passwords');
-  
-      console.log(data)
-      setData(data);
-    }
-    catch (error) {
-      console.log(error);
-    }
+  const handleItemSelect = (name) => {
+    setListItem(name);
   }
 
-  getData()
+  const refreshData = (data) => {
+    setData(data);
+  }
+
+  useEffect(() => {
+    fetch('/passwords', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+    })
+    .then((response) => {
+      console.log(response);
+      return response.json();
+    })
+    .then((result) => {
+      setData(result);
+    })
+  }, [])
 
   return (
     <section className="Dashboard">
       <div className="Dashboard__content">
-        <Sidebar data={data}/>
-        <Main />
+        <Sidebar data={data} onSelect={handleItemSelect}/>
+        <Main data={data} listItem={listItem} refreshData={refreshData} />
       </div>
     </section>
   )
