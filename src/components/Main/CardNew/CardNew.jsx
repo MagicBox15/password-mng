@@ -18,23 +18,26 @@ export const CardNew = () => {
     })
   }
 
-  const addSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    fetch('/passwords', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({...inputValues})
-    })
-    .then((response) => {
-      console.log(response);
-      return response.json();
-    })
-    .then((result) => {
-      console.log(result);
-    })
+    try {
+      const response = await fetch('/passwords', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({...inputValues})
+      })
+
+      if(response.ok) {
+        alert('oooookkkk')
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+
 
   return (
     <section className="CardNew">
@@ -76,7 +79,7 @@ export const CardNew = () => {
           />
           <button
             className='CardNew__buttonAdd'
-            onClick={addSubmit}
+            onClick={onSubmit}
           >
             Add
           </button>

@@ -1,3 +1,5 @@
+@import '../../../utilities/variables';
+
 .ItemsList {
 
   &__container {
@@ -15,8 +17,8 @@
 
     &:hover {
       border-radius: 4px;
-      color: rgb(12, 131, 12);
-      background-color: rgb(204, 236, 204);
+      color: $hoverItem_color;
+      background-color: $buttonSecondary_color;
       cursor: pointer;
     }
   }

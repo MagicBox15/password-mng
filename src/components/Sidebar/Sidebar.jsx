@@ -1,25 +1,31 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 import './Sidebar.scss';
 
+
 export const Sidebar = ({ data, onSelect }) => {
+  let navigate = useNavigate();
   const arr = data.map(item => item.type);
   const folders = Array.from(new Set(arr)).sort();
 
   const targetHandler = (event) => {
     onSelect(event.target.innerText);
   }
-//сделать логаут
-  const logout = async () => {
-    try {
-      await fetch('/logout', {
-        method: 'POST',
-        credentials: 'include',
+
+const logout = async () => {
+  try {
+    await fetch('/logout', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
     })
-      console.log('success');
-    } catch (error) {
-      console.log(error);
-    }
+      navigate('/login')
+  } catch (error) {
+    console.log(error);
+  }
 }
 
   return (

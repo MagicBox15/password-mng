@@ -1,9 +1,15 @@
-.Main {
-  display: flex;
-  border: 1px solid black;
+@import '../../utilities/variables';
 
-  &__content {
-    width: 100%;
+.Main {
+  position: relative;
+  border: 1px solid $border_color;
+  border-radius: 0 8px 8px 0;
+
+  &__сontainer {
+    display: flex;
+    justify-content: space-between;
+    height: 400px;
+    // width: 400px;
   }
 
   &__header {
@@ -11,7 +17,9 @@
     justify-content: space-between;
     height: 60px;
     align-items: center;
-    background-color: rgb(204, 236, 204);
+    border-radius: 0 8px 0 0;
+    border-bottom: 1px solid $border_color;
+    background-color: $buttonSecondary_color;
   }
 
   &__title {
@@ -25,16 +33,23 @@
     width: 100px;
     margin-right: 20px;
     border: 1px solid transparent;
-    color: white;
+    color: $text_lightColor;
     font-weight: bold;
     font-size: 16px;
     border-radius: 8px;
-    background-color: rgb(1,171,85);
+    background-color: $submitButton_color;
     cursor: pointer;
-  }
-}
+    transition: background-color 0.3s;
 
-.Main__сontainer {
-  display: flex;
-  justify-content: space-between;
+    &:hover {
+      background-color: $hoverSubmit_color;
+      color: $text_lightColor;
+      cursor: pointer;
+    }
+
+    &:active {
+      background-color: $activeSecondary_color;
+      color: $text_lightColor;
+    }
+  }
 }

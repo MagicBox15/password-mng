@@ -33,8 +33,11 @@ export const Dashboard = () => {
 
   return (
     <section className="Dashboard">
-      <div className="Dashboard__content">
-        <Sidebar data={data} onSelect={handleItemSelect}/>
+      <div className="Dashboard__container">
+        <Sidebar
+          data={data}
+          onSelect={handleItemSelect}
+        />
         <Main
           data={folderData}
           listItem={listItem}

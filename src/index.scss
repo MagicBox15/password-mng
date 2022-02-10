@@ -1,22 +1,9 @@
+@import './utilities/variables';
+
 html {
   font-family: 'Roboto', sans-serif;
   color: rgb(65, 65, 65);
   box-sizing: border-box;
-}
-
-body,
-h1,
-h2,
-ul,
-li,
-button,
-input {
-  margin: 0;
-  padding: 0;
-}
-
-ul {
-  list-style: none;
 }
 
 a {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Routes,
   Route,
@@ -10,35 +10,32 @@ import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { SignUpPage } from "./pages/SignUpPage/SignUpPage";
 
 function App() {
-  const [auth, setAuth] = useState(false);
-
-  useEffect(() => {
-    fetch('/login', {
-      method: 'POST',
-      body: JSON.stringify({username: "qwe", password: "qwe123"}),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-    })
-    .then((response) => {
-      setAuth(response.ok)
-      return response.json();
-    })
-  })
+  const [auth, setAuth] = useState(false)
 
   return (
     <Routes>
       {!auth && (
         <>
-          <Route path="/login" element={<AuthPage authenticate={() => setAuth(true)} />} />
-          <Route path="/registration" element={<SignUpPage />} />
+          <Route
+            path="/login"
+            element={<AuthPage authenticate={(auth) => setAuth(auth)}
+          />} />
+          <Route
+            path="/registration"
+            element={<SignUpPage
+          />} />
         </>
       )}
       {auth && (
-        <Route path="/passwords" element={<Dashboard />} />
+        <Route
+          path="/passwords"
+          element={<Dashboard />}
+        />
       )}
-      <Route path="*" element={<Navigate to={auth ? "/passwords" : "/login"} />} />
+      <Route
+        path="*"
+        element={<Navigate to={auth ? "/passwords" : "/login"}
+      />} />
     </Routes>
   );
 }

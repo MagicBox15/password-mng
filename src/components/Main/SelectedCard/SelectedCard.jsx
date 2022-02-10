@@ -25,17 +25,21 @@ export const SelectedCard = ({ data }) => {
   }
 
   const saveHandler = async (card, cardValue) => {
-    await fetch('/passwords', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: card._id,
-        title: cardValue.title,
-        password: cardValue.password,
+    try {
+      await fetch('/passwords', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: card._id,
+          title: cardValue.title,
+          password: cardValue.password,
+        })
       })
-    })
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const deleteHandler = async (card) => {

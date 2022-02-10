@@ -21,7 +21,13 @@ export const AuthPage = ({authenticate}) => {
 
   const [loading, setLoading] = useState(false);
 
-  const request = useCallback(async (url, mode, method = 'GET', body = null, credentials = 'include', headers = {}) => {
+  const request = useCallback(async (
+    url,
+    method = 'GET',
+    body = null,
+    credentials = 'include',
+    headers = {}
+  ) => {
     setLoading(true);
 
     try {
@@ -30,7 +36,13 @@ export const AuthPage = ({authenticate}) => {
         headers['Content-Type'] = 'application/json';
       }
 
-      const response = await fetch(url, {mode, method, body, credentials, headers})
+      const response = await fetch(
+        url, {
+          method,
+          body,
+          credentials,
+          headers
+        })
       const data = await response.json()
 
       if(!response.ok) {
@@ -47,10 +59,9 @@ export const AuthPage = ({authenticate}) => {
 
   const authHandler = async () => {
     try {
-      const data = await request('/login', 'POST', {...form});
-      authenticate();
-      navigate('passwords');
-      console.log('Data', data);
+      await request('/login', 'POST', {...form});
+      authenticate(true);
+      navigate('/passwords');
     } catch (error) {
       console.log(error);
     }
@@ -88,7 +99,7 @@ export const AuthPage = ({authenticate}) => {
 
           <div className='AuthPage__buttons'>
             <button
-              className='buttonSubmit'
+              className='AuthPage__buttonSubmit'
               type="submit"
               onClick={authHandler}
               disabled={loading}
@@ -96,7 +107,7 @@ export const AuthPage = ({authenticate}) => {
               Sign In
             </button>
             <button
-              className='buttonSecondary'
+              className='AuthPage__buttonSecondary'
               onClick={() => {navigate("/registration");}}
               disabled={loading}
             >

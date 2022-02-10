@@ -1,8 +1,12 @@
+@import '../../utilities/variables';
+
 .Sidebar {
   display: flex;
   height: 400px;
   width: 200px;
-  border: 1px solid black;
+  border: 1px solid $border_color;
+  border-radius: 8px 0 0 8px;
+  background-color: $sidebar_color;
 
   &__content {
     width: 100%;
@@ -13,7 +17,9 @@
     justify-content: space-between;
     height: 60px;
     text-align: center;
-    background-color: rgb(204, 236, 204);
+    border-radius: 8px 0 0 0;
+    border-bottom: 1px solid $border_color;
+    background-color: $buttonSecondary_color;
   }
 
   &__logout {
@@ -25,16 +31,16 @@
     align-items: center;
     padding: 4px;
     height: 28px;
-    background-color: rgb(201, 73, 73);
-    color: white;
-    border-radius: 4px;
+    background-color: $declibeButton_color;
+    color: $text_lightColor;
+    border-radius: 6px;
     border: 1px solid transparent;
     cursor: pointer;
   }
 
   &__title {
     align-self: flex-end;
-    padding-right: 10px;
+    padding: 4px;
     font-size: 24px;
   }
 
@@ -51,8 +57,8 @@
 
     &:hover {
       border-radius: 4px;
-      color: rgb(12, 131, 12);
-      background-color: rgb(204, 236, 204);
+      color: $hoverItem_color;
+      background-color: $buttonSecondary_color;
       cursor: pointer;
     }
   }

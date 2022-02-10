@@ -13,7 +13,7 @@ export const Main = ({ data, listItem }) => {
 
   return (
     <section className='Main'>
-      <div className="Main__content">
+      <div className="Main__container">
         <div className='Main__header'>
           <h1 className='Main__title'>
             {listItem}
@@ -25,16 +25,14 @@ export const Main = ({ data, listItem }) => {
             Add new
           </button>
         </div>
-        <div className='Main__сontainer'>
-          <div className='Main__listsInfo'>
-            <ItemsList
-              data={data}
-            />
-          </div>
+        <div className='Main__listsInfo'>
+          <ItemsList
+            data={data}
+          />
+        </div>
           {buttonAdd && (
             <CardNew />
           )}
-        </div>
       </div>
     </section>
   )
