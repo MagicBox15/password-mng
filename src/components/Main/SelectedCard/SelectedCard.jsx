@@ -2,13 +2,12 @@ import React, { useState } from "react";
 
 import './SelectedCard.scss';
 
-export const SelectedCard = ({ data, selectedItem }) => {
-  const card = data.find(item => item.title === `${selectedItem}`);
+export const SelectedCard = ({ data }) => {
   const [visiblePassword, setVisisiblePassword] = useState(false);
 
   const [cardValue, setCardValue] = useState({
-    title: card.title,
-    password: card.password,
+    title: data.title,
+    password: data.password,
   });
 
   const showPassword = (event) => {
@@ -25,39 +24,60 @@ export const SelectedCard = ({ data, selectedItem }) => {
     })
   }
 
-  //обработать запрос на сервер
-  const saveHandler = () => {
-    
+  const saveHandler = async (card, cardValue) => {
+    await fetch('/passwords', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: card._id,
+        title: cardValue.title,
+        password: cardValue.password,
+      })
+    })
   }
 
-  const deleteHandler = (event) => {
-    event.preventDefault();
-    //обработать запрос на сервер
+  const deleteHandler = async (card) => {
+    try {
+      await fetch('/passwords', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: card._id})
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return(
     <section className="SelectedCard">
       <div className="SelectedCard__container">
         <form className="SelectedCard__form">
-        <label
-          className="SelectedCard__titleLabel"
-          htmlFor="nameInput"
-        >
-          Title
-          <input
-            className="SelectedCard__titleInput"
-            id="titleInput"
-            name="title"
-            type="text"
-            value={cardValue.title}
-            onChange={changeHandler}
-          />
-        </label>
+          <div className="SelectedCard__inputs">
+            <label
+              className="SelectedCard__titleLabel"
+              htmlFor="titleInput"
+            >
+              Title
+            </label>
+              <input
+                className="SelectedCard__titleInput"
+                id="titleInput"
+                name="title"
+                type="text"
+                value={cardValue.title}
+                onChange={changeHandler}
+              />
+
             <label
               className="SelectedCard__passwordLabel"
               htmlFor="passwordInput"
             >
               Password
+            </label>
               <input
                 className="SelectedCard__passwordInput"
                 id="passwordInput"
@@ -72,20 +92,26 @@ export const SelectedCard = ({ data, selectedItem }) => {
               >
                 Show
               </button>
-            </label>
-            
+          </div>
+
+          <div className="SelectedCard__buttons">
             <button
               className="SelectedCard__confirmButton"
-              onClick={saveHandler}
+              onClick={(event) => {
+                event.preventDefault();
+                saveHandler(data, cardValue);
+              }}
             >
               Save changes
             </button>
             <button
+              type="button"
               className="SelectedCard__deleteButton"
-              onClick={deleteHandler}
+              onClick={() => deleteHandler(data)}
             >
               Delete item
             </button>
+          </div>
         </form>
       </div>
     </section>

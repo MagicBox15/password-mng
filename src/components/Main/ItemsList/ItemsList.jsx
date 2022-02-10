@@ -1,32 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import { SelectedCard } from "../SelectedCard/SelectedCard";
 
 import './ItemsList.scss';
 
-export const ItemsList = ({ data, listItem, onSelect }) => {
-  const items = data.filter(item => item.type === `${listItem}`)
+export const ItemsList = ({ data }) => {
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  const targetHandler = (event) => {
-    onSelect(event.target.innerText);
+  const selectHandler = (event) => {
+    setSelectedItem(data.find(item => item.title === event.target.innerText))
   }
 
   return(
     <section className="ItemsList">
       <div className="ItemsList__container">
-      <ul className='ItemsList__list'>
-        {items.map(item => (
-          <li
-            className='ItemsList__item'
-            key={item.title}
-            onClick={targetHandler}
-          >
-            {item.title}
-            {/* {item.title.length > 15
-              ? (`${item.title.substring(0, 15)}...`)
-              : (item.title)
-            } */}
-          </li>
-        ))}
+        <ul className='ItemsList__list'>
+          {data.map(item => (
+            <li
+              className='ItemsList__item'
+              key={item.title}
+              
+            >
+              <div
+                onClick={selectHandler}
+              >
+                {item.title}
+              </div>
+              {selectedItem && selectedItem.title === item.title && (
+                <SelectedCard data={selectedItem}/>
+              )}
+            </li>
+          ))}
         </ul>
+        
       </div>
     </section>
   )

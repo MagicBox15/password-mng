@@ -18,8 +18,6 @@ export const CardNew = () => {
     })
   }
 
-  console.log(inputValues);
-
   const addSubmit = (event) => {
     event.preventDefault();
     fetch('/passwords', {

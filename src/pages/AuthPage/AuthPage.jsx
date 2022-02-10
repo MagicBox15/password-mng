@@ -21,7 +21,7 @@ export const AuthPage = ({authenticate}) => {
 
   const [loading, setLoading] = useState(false);
 
-  const request = useCallback(async (url, mode, method = 'GET', body = null, headers = {}) => {
+  const request = useCallback(async (url, mode, method = 'GET', body = null, credentials = 'include', headers = {}) => {
     setLoading(true);
 
     try {
@@ -30,7 +30,7 @@ export const AuthPage = ({authenticate}) => {
         headers['Content-Type'] = 'application/json';
       }
 
-      const response = await fetch(url, {mode, method, body, headers})
+      const response = await fetch(url, {mode, method, body, credentials, headers})
       const data = await response.json()
 
       if(!response.ok) {
@@ -47,12 +47,12 @@ export const AuthPage = ({authenticate}) => {
 
   const authHandler = async () => {
     try {
-      const data = await request('http://localhost:3001/login', 'no-cors', 'POST', {...form});
+      const data = await request('/login', 'POST', {...form});
       authenticate();
       navigate('passwords');
       console.log('Data', data);
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
   }
 

@@ -3,17 +3,17 @@ import React from 'react';
 import './Sidebar.scss';
 
 export const Sidebar = ({ data, onSelect }) => {
-  const arr = data.map(item => item.type)
-  const folders = Array.from(new Set(arr));
+  const arr = data.map(item => item.type);
+  const folders = Array.from(new Set(arr)).sort();
 
   const targetHandler = (event) => {
     onSelect(event.target.innerText);
   }
-
+//сделать логаут
   const logout = async () => {
     try {
       await fetch('/logout', {
-        method: 'GET',
+        method: 'POST',
         credentials: 'include',
     })
       console.log('success');
@@ -21,7 +21,6 @@ export const Sidebar = ({ data, onSelect }) => {
       console.log(error);
     }
 }
-
 
   return (
     <section className='Sidebar'>

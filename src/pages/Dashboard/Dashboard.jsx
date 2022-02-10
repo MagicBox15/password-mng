@@ -7,15 +7,13 @@ import './Dashboard.scss';
 
 export const Dashboard = () => {
   const [data, setData] = useState([]);
-  const [listItem, setListItem] = useState([]);
+  const [listItem, setListItem] = useState('');
 
   const handleItemSelect = (name) => {
     setListItem(name);
   }
 
-  const refreshData = (data) => {
-    setData(data);
-  }
+  const folderData = data.filter(item => item.type === `${listItem}`)
 
   useEffect(() => {
     fetch('/passwords', {
@@ -26,7 +24,6 @@ export const Dashboard = () => {
       credentials: 'include',
     })
     .then((response) => {
-      console.log(response);
       return response.json();
     })
     .then((result) => {
@@ -38,7 +35,10 @@ export const Dashboard = () => {
     <section className="Dashboard">
       <div className="Dashboard__content">
         <Sidebar data={data} onSelect={handleItemSelect}/>
-        <Main data={data} listItem={listItem} refreshData={refreshData} />
+        <Main
+          data={folderData}
+          listItem={listItem}
+        />
       </div>
     </section>
   )

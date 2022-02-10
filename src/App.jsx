@@ -22,7 +22,6 @@ function App() {
       credentials: 'include',
     })
     .then((response) => {
-      console.log(response);
       setAuth(response.ok)
       return response.json();
     })

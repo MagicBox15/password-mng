@@ -1,12 +1,15 @@
 .ItemsList {
 
   &__container {
+    position: relative;
+    width: 400px;
     display: flex;
-    flex-direction: column;
-    padding: 10px;
+    justify-content: space-between;
+    margin: 10px;
   }
 
   &__item {
+    display: flex;
     padding: 4px;
     font-size: 20px;
 
