@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Context } from '../../../context';
 
 import './CardNew.scss';
 
 export const CardNew = () => {
+  const {updateCheker, showMessage, activateModal} = useContext(Context);
+
   const [inputValues, setInputValues] = useState({
     type: '',
     title: '',
@@ -18,8 +21,7 @@ export const CardNew = () => {
     })
   }
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async () => {
     try {
       const response = await fetch('/passwords', {
         method: 'POST',
@@ -29,15 +31,23 @@ export const CardNew = () => {
         body: JSON.stringify({...inputValues})
       })
 
-      if(response.ok) {
-        alert('oooookkkk')
+      const data = await response.json();
+
+      activateModal();
+
+      if(!response.ok) {
+        showMessage(data.message);
+      } else {
+        showMessage('Password was added')
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-
+  const updateHandler = () => {
+    updateCheker();
+  };
 
   return (
     <section className="CardNew">
@@ -54,6 +64,7 @@ export const CardNew = () => {
             placeholder='folder&#39;s name'
             onChange={changeHandler}
           />
+
           <label htmlFor="title">
             Title
           </label>
@@ -66,6 +77,7 @@ export const CardNew = () => {
             onChange={changeHandler}
             required
           />
+
           <label htmlFor="password">
             Password
           </label>
@@ -77,9 +89,14 @@ export const CardNew = () => {
             placeholder='password'
             onChange={changeHandler}
           />
+
           <button
             className='CardNew__buttonAdd'
-            onClick={onSubmit}
+            onClick={(event)=>{
+              event.preventDefault();
+              onSubmit();
+              updateHandler();
+            }}
           >
             Add
           </button>

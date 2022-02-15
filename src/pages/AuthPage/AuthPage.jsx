@@ -1,9 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
+import { Modal } from '../../components/Modal/Modal';
 
 import './AuthPage.scss';
 
 export const AuthPage = ({authenticate}) => {
+  const [modalActive, setModalActive] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('Something going wrong');
+
   let navigate = useNavigate();
   const [form, setForm] = useState({
     username: '',
@@ -43,10 +47,12 @@ export const AuthPage = ({authenticate}) => {
           credentials,
           headers
         })
-      const data = await response.json()
+      const data = await response.json();
 
       if(!response.ok) {
-        throw new Error(data.message || 'Something going wrong')
+        setModalActive(true);
+        setErrorMessage(data.message);
+        return data;
       }
 
       setLoading(false);
@@ -58,6 +64,7 @@ export const AuthPage = ({authenticate}) => {
   }, [])
 
   const authHandler = async () => {
+
     try {
       await request('/login', 'POST', {...form});
       authenticate(true);
@@ -92,6 +99,7 @@ export const AuthPage = ({authenticate}) => {
             id="password"
             type="password"
             placeholder='enter password'
+            title="Password should contain min 4 and max 12 characters"
             onChange={changeHandler}
             disabled={loading}
           />
@@ -113,8 +121,17 @@ export const AuthPage = ({authenticate}) => {
             >
               Sign Up
             </button>
+            
           </div>
       </div>
+      {modalActive && (
+        <Modal
+          active={modalActive}
+          setActive={setModalActive}
+        >
+          <p>{errorMessage}</p>
+        </Modal>
+      )}
     </section>
   )
 };

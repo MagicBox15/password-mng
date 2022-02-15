@@ -10,7 +10,7 @@ import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { SignUpPage } from "./pages/SignUpPage/SignUpPage";
 
 function App() {
-  const [auth, setAuth] = useState(false)
+  const [auth, setAuth] = useState(false);
 
   return (
     <Routes>

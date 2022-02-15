@@ -1,9 +1,13 @@
 import React,  { useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
+import { Modal } from '../../components/Modal/Modal';
 
 import './SignUpPage.scss';
 
 export const SignUpPage = () => {
+  const [modalActive, setModalActive] = useState(false);
+  const [modalMessage, setModalMessage] = useState('Something going wrong');
+
   let navigate = useNavigate();
   const [form, setForm] = useState({
     username: '',
@@ -21,7 +25,12 @@ export const SignUpPage = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
+  const request = useCallback(async (
+    url,
+    method = 'GET',
+    body = null,
+    headers = {}
+    ) => {
     setLoading(true);
 
     try {
@@ -34,7 +43,8 @@ export const SignUpPage = () => {
       const data = await response.json()
 
       if(!response.ok) {
-        throw new Error(data.message || 'Something going wrong')
+        setModalActive(true);
+        setModalMessage(data.message);
       }
 
       setLoading(false);
@@ -47,11 +57,17 @@ export const SignUpPage = () => {
 
   const registrationHandler = async () => {
     try {
-      const data = await request('/auth/registration', 'POST', {...form})
-      alert('Registration success. Now you can log in')
-      console.log('Data', data);
+      const response = await request('/registration', 'POST', {...form});
+      console.log(response);
+
+      if(!response.ok) {
+        setModalActive(true);
+        setModalMessage(response.message);
+      }
+
+      // setModalMessage('You were successfully registred. Now you can login')
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
   }
 
@@ -102,6 +118,14 @@ export const SignUpPage = () => {
           </button>
         </div>
       </div>
+      {modalActive && (
+        <Modal
+          active={modalActive}
+          setActive={setModalActive}
+        >
+          <div>{modalMessage}</div>
+        </Modal>
+      )}
     </section>
   )
 };

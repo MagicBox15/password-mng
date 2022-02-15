@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Context } from '../../../context';
 
 import './SelectedCard.scss';
 
 export const SelectedCard = ({ data }) => {
   const [visiblePassword, setVisisiblePassword] = useState(false);
 
+  const {updateCheker, showMessage, activateModal} = useContext(Context);
+
   const [cardValue, setCardValue] = useState({
     title: data.title,
     password: data.password,
   });
+
+  const updateHandler = () => {
+    updateCheker();
+  };
 
   const showPassword = (event) => {
     event.preventDefault()
@@ -26,7 +33,7 @@ export const SelectedCard = ({ data }) => {
 
   const saveHandler = async (card, cardValue) => {
     try {
-      await fetch('/passwords', {
+      const response = await fetch('/passwords', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -37,6 +44,16 @@ export const SelectedCard = ({ data }) => {
           password: cardValue.password,
         })
       })
+
+      const data = await response.json();
+
+      activateModal();
+
+      if(!response.ok) {
+        showMessage(data.message);
+      } else {
+        showMessage(data.message)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -104,14 +121,20 @@ export const SelectedCard = ({ data }) => {
               onClick={(event) => {
                 event.preventDefault();
                 saveHandler(data, cardValue);
+                updateHandler();
               }}
             >
               Save changes
             </button>
+
             <button
               type="button"
               className="SelectedCard__deleteButton"
-              onClick={() => deleteHandler(data)}
+              onClick={(event) => {
+                event.preventDefault();
+                deleteHandler(data);
+                updateHandler();
+              }}
             >
               Delete item
             </button>
